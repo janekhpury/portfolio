@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CV & Portfolio - Jane Khoury</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --accent: #38bdf8;
+      --accent-2: #22c55e;
+      --max: 1100px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #0a0e36 0%, #0f172a 50%, #091326 100%);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    /* --- ARRIÈRE-PLAN ENGRENAGES & CIRCUITS --- */
+    .tech-background {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+      opacity: 0.35;
+    }
+
+    .tech-background svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .gear-cw {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: spin-cw 38s linear infinite;
+    }
+
+    .gear-ccw {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: spin-ccw 28s linear infinite;
+    }
+
+    .gear-slow {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: spin-cw 55s linear infinite;
+    }
+
+    .pcb-pulse {
+      stroke-dasharray: 12 180;
+      animation: pulse-flow 6s linear infinite;
+    }
+
+    .pcb-pulse-delay {
+      stroke-dasharray: 10 220;
+      animation: pulse-flow 8s linear infinite 2.5s;
+    }
+
+    @keyframes spin-cw {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes spin-ccw {
+      from { transform: rotate(360deg); }
+      to { transform: rotate(0deg); }
+    }
+
+    @keyframes pulse-flow {
+      from { stroke-dashoffset: 240; }
+      to { stroke-dashoffset: 0; }
+    }
+
+    /* Assure que tout le contenu reste au-dessus du fond */
+    header, main, footer {
+      position: relative;
+      z-index: 1;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      width: min(92%, var(--max));
+      margin: 0 auto;
+    }
+
+    header {
+      padding: 56px 0 30px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .hero-card,
+    .card {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(56, 189, 248, 0.14);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    }
+
+    h1, h2, h3 {
+      margin-top: 0;
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 18px 0;
+    }
+
+    .badge {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: #dbeafe;
+      font-size: 0.92rem;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-weight: bold;
+      border: 1px solid transparent;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #082f49;
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      border-color: rgba(255,255,255,0.15);
+    }
+
+    .profile {
+      text-align: center;
+    }
+
+    .hanging-card {
+      position: relative;
+      z-index: 2;
+      transform-origin: top center;
+      cursor: grab;
+      user-select: none;
+      will-change: transform;
+    }
+
+    .hanging-card:active {
+      cursor: grabbing;
+    }
+
+    .rope {
+      width: 3px;
+      height: 60px;
+      background: linear-gradient(180deg, #ffffff, #94a3b8);
+      position: absolute;
+      top: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      transform-origin: top center;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hanging-card::before {
+      content: "";
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 12px;
+      height: 12px;
+      background: #38bdf8;
+      border: 2px solid #0f172a;
+      border-radius: 50%;
+      z-index: 3;
+    }
+
+    .avatar {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      margin: 0 auto 16px;
+      overflow: hidden;
+      border: 2px solid rgba(56, 189, 248, 0.35);
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    main {
+      padding: 32px 0 56px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .nav-card {
+      display: block;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+      color: var(--text);
+      text-decoration: none;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .nav-card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 18px 45px rgba(0,0,0,0.45);
+      border-color: rgba(56, 189, 248, 0.5);
+      text-decoration: none;
+    }
+
+    .nav-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 14px;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .nav-card h2 {
+      margin-bottom: 8px;
+    }
+
+    .nav-card p {
+      color: var(--muted);
+      margin-bottom: 0;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    ul {
+      padding-left: 18px;
+      margin-bottom: 0;
+    }
+
+    .timeline-item,
+    .project {
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .timeline-item:last-child,
+    .project:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .project-tags span {
+      font-size: 0.85rem;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+
+    footer {
+      padding: 24px 0 48px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 850px) {
+      .hero,
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- FOND ANIME : ROUES DENTEES & PUCES ELECTRONIQUES -->
+  <div class="tech-background" aria-hidden="true">
+    <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Modèle d'engrenage vectoriel -->
+        <g id="gear-shape">
+          <circle cx="0" cy="0" r="68" fill="none" stroke="#38bdf8" stroke-width="6" />
+          <circle cx="0" cy="0" r="46" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-dasharray="10 6" />
+          <circle cx="0" cy="0" r="18" fill="none" stroke="#38bdf8" stroke-width="4" />
+          <!-- Rayons -->
+          <line x1="-46" y1="0" x2="-18" y2="0" stroke="#38bdf8" stroke-width="4" />
+          <line x1="18" y1="0" x2="46" y2="0" stroke="#38bdf8" stroke-width="4" />
+          <line x1="0" y1="-46" x2="0" y2="-18" stroke="#38bdf8" stroke-width="4" />
+          <line x1="0" y1="18" x2="0" y2="46" stroke="#38bdf8" stroke-width="4" />
+          <!-- Dents de l'engrenage (12 dents) -->
+          <g fill="#38bdf8">
+            <rect x="-7" y="-82" width="14" height="16" rx="2" />
+            <rect x="-7" y="66" width="14" height="16" rx="2" />
+            <rect x="-82" y="-7" width="16" height="14" rx="2" />
+            <rect x="66" y="-7" width="16" height="14" rx="2" />
+            <rect x="-7" y="-82" width="14" height="16" rx="2" transform="rotate(30)" />
+            <rect x="-7" y="-82" width="14" height="16" rx="2" transform="rotate(60)" />
+            <rect x="-7" y="-82" width="14" height="16" rx="2" transform="rotate(120)" />
+            <rect x="-7" y="-82" width="14" height="16" rx="2" transform="rotate(150)" />
+            <rect x="-7" y="-82" width="14" height="16" rx="2" transform="rotate(210)" />
+            <rect x="-7" y="-82" width="14" height="16" rx="2" transform="rotate(240)" />
+            <rect x="-7" y="-82" width="14" height="16" rx="2" transform="rotate(300)" />
+            <rect x="-7" y="-82" width="14" height="16" rx="2" transform="rotate(330)" />
+          </g>
+        </g>
+
+        <!-- Modèle de puce électronique (Microchip) -->
+        <g id="microchip">
+          <rect x="-45" y="-45" width="90" height="90" rx="10" fill="rgba(15, 23, 42, 0.7)" stroke="#22c55e" stroke-width="3" />
+          <rect x="-28" y="-28" width="56" height="56" rx="4" fill="none" stroke="#38bdf8" stroke-width="1.8" />
+          <circle cx="-16" cy="-16" r="3" fill="#22c55e" />
+          <!-- Broches Haut & Bas -->
+          <g stroke="#22c55e" stroke-width="3" stroke-linecap="round">
+            <line x1="-25" y1="-45" x2="-25" y2="-62" />
+            <line x1="-8" y1="-45" x2="-8" y2="-62" />
+            <line x1="8" y1="-45" x2="8" y2="-62" />
+            <line x1="25" y1="-45" x2="25" y2="-62" />
+            <line x1="-25" y1="45" x2="-25" y2="62" />
+            <line x1="-8" y1="45" x2="-8" y2="62" />
+            <line x1="8" y1="45" x2="8" y2="62" />
+            <line x1="25" y1="45" x2="25" y2="62" />
+            <!-- Broches Gauche & Droite -->
+            <line x1="-45" y1="-25" x2="-62" y2="-25" />
+            <line x1="-45" y1="-8" x2="-62" y2="-8" />
+            <line x1="-45" y1="8" x2="-62" y2="8" />
+            <line x1="-45" y1="25" x2="-62" y2="25" />
+            <line x1="45" y1="-25" x2="62" y2="-25" />
+            <line x1="45" y1="-8" x2="62" y2="-8" />
+            <line x1="45" y1="8" x2="62" y2="8" />
+            <line x1="45" y1="25" x2="62" y2="25" />
+          </g>
+        </g>
+      </defs>
+
+      <!-- PISTES DE CIRCUIT IMPRIMÉ (PCB) -->
+      <g fill="none" stroke="#38bdf8" stroke-width="2" opacity="0.45">
+        <path d="M 0 180 L 160 180 L 210 230 L 390 230" />
+        <path d="M 0 210 L 140 210 L 190 260 L 390 260" />
+        <path d="M 510 245 L 720 245 L 780 185 L 1050 185" />
+        <path d="M 1440 620 L 1220 620 L 1160 560 L 960 560" />
+        <path d="M 1440 650 L 1200 650 L 1140 590 L 960 590" />
+        <path d="M 840 575 L 620 575 L 550 645 L 280 645 L 220 705 L 0 705" />
+        <path d="M 1050 185 L 1120 255 L 1320 255" />
+      </g>
+
+      <!-- IMPULSIONS LUMINEUSES SUR LES CIRCUITS -->
+      <g fill="none" stroke="#22c55e" stroke-width="3" stroke-linecap="round">
+        <path class="pcb-pulse" d="M 0 180 L 160 180 L 210 230 L 390 230" />
+        <path class="pcb-pulse-delay" d="M 1440 620 L 1220 620 L 1160 560 L 960 560" />
+        <path class="pcb-pulse" d="M 840 575 L 620 575 L 550 645 L 280 645 L 220 705 L 0 705" />
+      </g>
+
+      <!-- NŒUDS DE SOUDURE (PADS) -->
+      <g fill="#0f172a" stroke="#38bdf8" stroke-width="2.5">
+        <circle cx="160" cy="180" r="5" />
+        <circle cx="780" cy="185" r="5" />
+        <circle cx="1320" cy="255" r="6" />
+        <circle cx="1220" cy="620" r="5" />
+        <circle cx="550" cy="645" r="5" />
+        <circle cx="280" cy="645" r="5" />
+      </g>
+
+      <!-- PUCES ÉLECTRONIQUES PLACÉES -->
+      <use href="#microchip" x="450" y="245" />
+      <use href="#microchip" x="900" y="575" transform="scale(1.15)" />
+
+      <!-- ROUES DENTÉES ENGRENÉES (EN HAUT À DROITE) -->
+      <g transform="translate(1240, 140)">
+        <g class="gear-cw">
+          <use href="#gear-shape" transform="scale(1.35)" />
+        </g>
+      </g>
+      <g transform="translate(1105, 255)">
+        <g class="gear-ccw">
+          <use href="#gear-shape" transform="scale(0.85)" />
+        </g>
+      </g>
+
+      <!-- ROUES DENTÉES ENGRENÉES (EN BAS À GAUCHE) -->
+      <g transform="translate(150, 790)">
+        <g class="gear-slow">
+          <use href="#gear-shape" transform="scale(1.6)" />
+        </g>
+      </g>
+      <g transform="translate(315, 725)">
+        <g class="gear-ccw">
+          <use href="#gear-shape" transform="scale(0.9)" />
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <header>
+    <div class="container hero">
+      <div class="hero-card">
+        <h1>Jane Khoury</h1>
+        <p class="subtitle">Développeuse Jeu & Web / Éditrice & Graphiste / Étudiante en Ingénierie Mécanique</p>
+
+        <p>
+          Je suis une personne motivée, organisée et passionnée par la création de projets modernes.
+          Ce site présente mon <strong>CV</strong>, mes <strong>compétences</strong> et mon <strong>portfolio</strong>.
+        </p>
+
+        <div class="badge-row">
+          <span class="badge">CAD (2D & 3D)</span>
+          <span class="badge">FEA</span>
+          <span class="badge">HTML</span>
+          <span class="badge">CSS</span>
+          <span class="badge">JavaScript</span>
+        </div>
+
+        <div class="btn-row">
+          <a class="btn btn-primary" href="#portfolio">Voir mes projets</a>
+          <a class="btn btn-secondary" href="#contact">Me contacter</a>
+        </div>
+      </div>
+
+      <div class="hero-card profile hanging-card" id="card">
+        <div class="rope"></div>
+        <div class="avatar">
+          <img src="photo.png" alt="Photo de profil" />
+        </div>
+        <h3>Informations</h3>
+        <p class="meta">Zouk Mikael, Lebanon</p>
+        <p><a href="mailto:janekhoury7@gmail.com">janekhoury7@gmail.com</a></p>
+        <p><a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">LinkedIn</a></p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="grid">
+        <a class="nav-card" href="apropos.html">
+          <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80" alt="À propos" />
+          <h2>À propos</h2>
+          <p>Découvre mon parcours, mon profil et mes objectifs professionnels.</p>
+        </a>
+
+        <a class="nav-card" href="competences.html">
+          <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80" alt="Compétences" />
+          <h2>Compétences</h2>
+          <p>Voir les outils, technologies et qualités que je maîtrise.</p>
+        </a>
+
+        <a class="nav-card" href="formation.html">
+          <img src="https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?auto=format&fit=crop&w=900&q=80" alt="Formation" />
+          <h2>Formation</h2>
+          <p>Voir mon parcours scolaire, universitaire et mes certifications.</p>
+        </a>
+
+        <a class="nav-card" href="experience.html">
+          <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=900&q=80" alt="Expérience" />
+          <h2>Expérience</h2>
+          <p>Consulter mes expériences, stages, missions et réalisations.</p>
+        </a>
+
+        <a class="nav-card" href="hobbies.html">
+          <img src="https://images.unsplash.com/photo-1518604666860-9ed391f76460?auto=format&fit=crop&w=900&q=80" alt="Hobbies" />
+          <h2>Hobbies</h2>
+          <p>Découvrir mes centres d’intérêt, passions et activités personnelles.</p>
+        </a>
+
+        <a class="nav-card" href="volunteering.html">
+          <img src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=900&q=80" alt="Volunteering" />
+          <h2>Volunteering</h2>
+          <p>Voir mes expériences de volontariat et engagements.</p>
+        </a>
+
+        <section id="portfolio" class="card full">
+          <h2>Portfolio</h2>
+
+          <div class="project">
+            <h3>Projet 1 — Site vitrine</h3>
+            <p>Brève description du projet, du besoin, de la solution et des résultats.</p>
+            <div class="project-tags">
+              <span>HTML</span>
+              <span>CSS</span>
+              <span>Responsive</span>
+            </div>
+          </div>
+
+          <div class="project">
+            <h3>Projet 2 — Application web</h3>
+            <p>Explique ce que tu as construit et ce que tu as appris.</p>
+            <div class="project-tags">
+              <span>JavaScript</span>
+              <span>UI</span>
+              <span>GitHub</span>
+            </div>
+          </div>
+
+          <div class="project">
+            <h3>Projet 3 — Design / Branding</h3>
+            <p>Présente ici un travail créatif, un prototype ou une refonte.</p>
+            <div class="project-tags">
+              <span>Figma</span>
+              <span>UX</span>
+              <span>Prototype</span>
+            </div>
+          </div>
+        </section>
+
+        <section id="contact" class="card full">
+          <h2>Contact</h2>
+          <p>Tu peux me contacter par email : <a href="mailto:janekhoury7@gmail.com">janekhoury7@gmail.com</a></p>
+          <p>Ou via LinkedIn / GitHub selon les liens ajoutés plus haut.</p>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      © 2026 — Jane Khoury. Tous droits réservés.
+    </div>
+  </footer>
+
+  <script>
+    const card = document.getElementById("card");
+
+    let dragging = false;
+    let startPointerX = 0;
+    let startPointerY = 0;
+    let startCardX = 0;
+    let startCardY = 0;
+
+    let x = 0;
+    let y = 0;
+    let vx = 0;
+    let vy = 0;
+    let angle = 0;
+    let angularVelocity = 0;
+    let animationFrame = null;
+
+    function update() {
+      card.style.transform = `translate(${x}px, ${y}px) rotate(${angle}deg)`;
+    }
+
+    function animateBack() {
+      const spring = 0.025;
+      const damping = 0.94;
+      const rotationSpring = 0.04;
+      const rotationDamping = 0.92;
+
+      vx += (-x) * spring;
+      vy += (-y) * spring;
+
+      vx *= damping;
+      vy *= damping;
+
+      x += vx;
+      y += vy;
+
+      const targetAngle = x * 0.04;
+      angularVelocity += (targetAngle - angle) * rotationSpring;
+      angularVelocity *= rotationDamping;
+      angle += angularVelocity;
+
+      update();
+
+      if (
+        Math.abs(x) < 0.15 &&
+        Math.abs(y) < 0.15 &&
+        Math.abs(vx) < 0.15 &&
+        Math.abs(vy) < 0.15 &&
+        Math.abs(angle) < 0.15 &&
+        Math.abs(angularVelocity) < 0.15
+      ) {
+        x = 0;
+        y = 0;
+        vx = 0;
+        vy = 0;
+        angle = 0;
+        angularVelocity = 0;
+        update();
+        animationFrame = null;
+        return;
+      }
+
+      animationFrame = requestAnimationFrame(animateBack);
+    }
+
+    function startDrag(clientX, clientY) {
+      dragging = true;
+      startPointerX = clientX;
+      startPointerY = clientY;
+      startCardX = x;
+      startCardY = y;
+
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+        animationFrame = null;
+      }
+    }
+
+    function moveDrag(clientX, clientY) {
+      if (!dragging) return;
+
+      const dx = clientX - startPointerX;
+      const dy = clientY - startPointerY;
+
+      const previousX = x;
+      const previousY = y;
+
+      x = startCardX + dx;
+      y = startCardY + dy;
+
+      vx = x - previousX;
+      vy = y - previousY;
+
+      angle = x * 0.05;
+
+      update();
+    }
+
+    function endDrag() {
+      if (!dragging) return;
+      dragging = false;
+      animationFrame = requestAnimationFrame(animateBack);
+    }
+
+    card.addEventListener("mousedown", (e) => {
+      if (e.target.closest("a")) return; // Permet de cliquer sur les liens
+      e.preventDefault();
+      startDrag(e.clientX, e.clientY);
+    });
+
+    document.addEventListener("mousemove", (e) => {
+      moveDrag(e.clientX, e.clientY);
+    });
+
+    document.addEventListener("mouseup", endDrag);
+
+    card.addEventListener("touchstart", (e) => {
+      if (e.target.closest("a")) return;
+      const touch = e.touches[0];
+      startDrag(touch.clientX, touch.clientY);
+    }, { passive: true });
+
+    document.addEventListener("touchmove", (e) => {
+      if (!dragging) return;
+      const touch = e.touches[0];
+      moveDrag(touch.clientX, touch.clientY);
+    }, { passive: true });
+
+    document.addEventListener("touchend", endDrag);
+    document.addEventListener("touchcancel", endDrag);
+
+    update();
+  </script>
+</body>
+</html>
